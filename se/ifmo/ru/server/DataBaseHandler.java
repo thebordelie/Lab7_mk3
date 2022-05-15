@@ -56,7 +56,7 @@ public class DataBaseHandler {
             while(!connect){
                 message=(Message) objectInputStream.readObject();
                 if (message.getLogin().length()>=20){
-                    message.setMessage("Слишком длинный пароль");
+                    message.setMessage("Слишком длинный логин");
                     objectOutputStream.writeObject(message);
                     objectOutputStream.flush();
                     message.setMessage("");

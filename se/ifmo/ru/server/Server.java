@@ -11,7 +11,7 @@ public class Server {
         Class.forName("org.postgresql.Driver");
         try {
             CollectionManager collectionManager=new CollectionManager();
-            DataBaseHandler dataBaseHandler=new DataBaseHandler("jdbc:postgresql://pg:5432/studs","s335069","mlc900");
+            DataBaseHandler dataBaseHandler=new DataBaseHandler("jdbc:postgresql://pg:5432/studs","---","---");
             dataBaseHandler.readDataBase(collectionManager.getTickets());
             ServerSocket serverSocket=new ServerSocket(PORT);
             System.out.println("Сервер успешно стартовал");

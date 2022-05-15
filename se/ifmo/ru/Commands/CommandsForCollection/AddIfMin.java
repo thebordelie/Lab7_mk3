@@ -9,6 +9,7 @@ public class AddIfMin extends Command {
     public AddIfMin(String nameOfCommand) {
         super(nameOfCommand);
     }
+
     @Override
     public String executeCommand(LinkedList<Ticket> tickets) {
         if (tickets.size() == 0) {
@@ -19,12 +20,12 @@ public class AddIfMin extends Command {
             float price;
             price = tickets.get(0).getPrice();
             for (Ticket ticket1 : tickets) {
-                if ( ticket1.getPrice()<price) {
+                if (ticket1.getPrice() < price) {
                     price = ticket1.getPrice();
                 }
 
             }
-            if (getTicket().getPrice()<price) {
+            if (getTicket().getPrice() < price) {
                 tickets.add(getTicket());
                 return "Элемент успешно добавлен";
 
@@ -32,8 +33,9 @@ public class AddIfMin extends Command {
 
         }
     }
+
     @Override
-    public String infoOfCommand(){
+    public String infoOfCommand() {
         return "Добавляет в коллекцию новый элемент, если его значение наименьшее";
     }
 

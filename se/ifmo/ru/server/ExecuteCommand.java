@@ -37,10 +37,15 @@ public class ExecuteCommand implements Runnable {
 
         try {
             objectOutputStream.writeObject(message);
-            lock.unlock();
+            objectOutputStream.flush();
+
         }
         catch (IOException ex){
+
             System.out.println("Ошибка при отправлении данных");
+        }
+        finally{
+            lock.unlock();
         }
     }
 

@@ -16,57 +16,53 @@ public class NewClient extends Thread {
     private LinkedList<Ticket> tickets;
     private Runnable executeCommand;
     private DataBaseHandler dataBaseHandler;
-    public NewClient(Socket client, LinkedList<Ticket> tickets,DataBaseHandler dataBaseHandler){
-        this.tickets=tickets;
-        this.client=client;
+
+    public NewClient(Socket client, LinkedList<Ticket> tickets, DataBaseHandler dataBaseHandler) {
+        this.tickets = tickets;
+        this.client = client;
         try {
-            objectOutputStream=new ObjectOutputStream(client.getOutputStream());
-            objectInputStream=new ObjectInputStream(client.getInputStream());
-            this.dataBaseHandler=dataBaseHandler;
+            objectOutputStream = new ObjectOutputStream(client.getOutputStream());
+            objectInputStream = new ObjectInputStream(client.getInputStream());
+            this.dataBaseHandler = dataBaseHandler;
             start();
-        }
-        catch (IOException ex){
+        } catch (IOException ex) {
             System.out.println("Ошибка при инициализации блока ввода-вывода данных");
         }
 
 
     }
+
     @Override
-    public void run(){
+    public void run() {
         Command command;
 
         try {
             ExecutorService executor = Executors.newCachedThreadPool();
-            dataBaseHandler.connectToDataBase(objectInputStream,objectOutputStream);
+            dataBaseHandler.connectToDataBase(objectInputStream, objectOutputStream);
             dataBaseHandler.setConnect(false);
-            while (true){
-                command=(Command) objectInputStream.readObject();
-                if(command.getNameOfCommand().equals("exit")) break;
-                executeCommand=new ExecuteCommand(objectOutputStream,command,tickets,dataBaseHandler);
+            while (true) {
+                command = (Command) objectInputStream.readObject();
+                if (command.getNameOfCommand().equals("exit")) break;
+                executeCommand = new ExecuteCommand(objectOutputStream, command, tickets, dataBaseHandler);
                 executor.submit(executeCommand);
             }
-            System.out.println("Пользователь "+client.getInetAddress()+" отключается");
+            System.out.println("Пользователь " + client.getInetAddress() + " отключается");
             objectInputStream.close();
             objectOutputStream.close();
             client.close();
 
 
-        }
-        catch (ClassNotFoundException ex){
+        } catch (ClassNotFoundException ex) {
             System.out.println("Получен неизвестный объект");
-        }
-        catch (IOException ex){
+        } catch (IOException ex) {
             System.out.println("Произошёл разрыв соединения с пользователем");
-        }
-        finally {
+        } finally {
             try {
                 client.close();
-            }
-            catch (IOException ex){
+            } catch (IOException ex) {
                 System.out.println("Сокет не закрыт");
             }
         }
-
 
 
     }

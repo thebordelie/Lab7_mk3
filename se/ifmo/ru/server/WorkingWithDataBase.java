@@ -20,8 +20,7 @@ public class WorkingWithDataBase {
     private static String SQL_REMOVE_BY_ID;
     private static String SQL_REMOVE_HEAD;
     private static final String SQL_MIN_ID="select Min(id) from ticket";
-    private static String SQL_UPDATE;
-
+    private static String SQL_UPDATE
     private String login;
 
 
@@ -45,8 +44,6 @@ public class WorkingWithDataBase {
                 commandWork=removeTicket(command);
                 if(!commandWork) message.setMessage("Не удалось удалить элемент");
                 return commandWork;
-            case "remove_any_by_venue":
-                break;
             case "remove_head":
                 commandWork=removeHead();
                 if(!commandWork) message.setMessage("Невозможно удалить первый билет");
@@ -154,13 +151,13 @@ public class WorkingWithDataBase {
             preparedStatement.setString(18,ticket.getVenue().getAddress().getTown().getName());
             preparedStatement.executeUpdate();
             preparedStatement.close();
-            return true;
         }
         catch (SQLException ex){
             System.out.println("Ошибка при добавлении");
             return false;
         }
 
+        return true;
     }
 
 
